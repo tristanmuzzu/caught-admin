@@ -9,3 +9,6 @@ answers browsers only from the origins in `ADMIN_APP_ORIGINS` (default `https://
 Anything that changes money or channels stays on the full `/admin` page, which the app links to.
 
 Test against a local server: open the page with `?api=http://localhost:PORT` (localhost only).
+
+Setup on a phone without typing the key: open `https://tristanmuzzu.github.io/caught-admin/#key=KEY` once.
+The part after `#` is never sent to any server; the app stores it and removes it from the address bar.

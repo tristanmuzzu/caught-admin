@@ -17,6 +17,11 @@ const store = {
   set(v) { try { localStorage.setItem(KEY, v); } catch (_) { /* private mode: works until the tab closes */ } },
   clear() { try { localStorage.removeItem(KEY); } catch (_) {} },
 };
+// one-time setup link: …/caught-admin/#key=KEY (the part after # never leaves the phone); stored, then wiped from the address
+if (location.hash.startsWith("#key=")) {
+  store.set(decodeURIComponent(location.hash.slice(5)));
+  history.replaceState(null, "", location.pathname + location.search);
+}
 let key = store.get(), data = null, loading = false;
 const shown = { people: 10, demos: 8 };
 

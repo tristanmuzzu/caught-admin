@@ -1,6 +1,6 @@
 // Caches the app shell so it opens instantly and offline. Never touches caught.studio requests:
 // admin data is always fetched fresh and never stored.
-const CACHE = "caught-admin-v1";
+const CACHE = "caught-admin-v2";
 const SHELL = ["./", "index.html", "app.css", "app.js", "manifest.webmanifest", "img/caught-mark.svg",
   "img/icon-192.png", "img/icon-512.png", "img/apple-touch-icon.png", "fonts/anton.woff2", "fonts/archivo.woff2"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL))); self.skipWaiting(); });
