@@ -1,0 +1,4 @@
+Anton, Archivo and Mr Dafoe are licensed under the SIL Open Font License 1.1.
+Anton: Copyright The Anton Project Authors. Archivo: Copyright The Archivo Project Authors.
+Mr Dafoe: Copyright 2011 Sudtipos.
+Full text: https://openfontlicense.org/open-font-license-official-text/

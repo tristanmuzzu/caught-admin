@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#17122e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Caught admin">
+<title>Caught admin</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="img/icon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<!-- No data lives here. This page asks caught.studio for it with the admin key typed on this device. -->
+<header class="bar">
+  <img src="img/caught-mark.svg" alt="" width="28" height="28">
+  <b>Caught admin</b>
+  <span id="stamp" class="stamp"></span>
+  <button id="reload" class="icon" type="button" aria-label="Refresh" hidden>
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</header>
+
+<main id="gate" class="gate" hidden>
+  <h1>Sign in on this phone</h1>
+  <p>Paste the admin key (<code>ADMIN_KEY</code> on the server). It stays on this device and is sent only to caught.studio.</p>
+  <form id="keyform">
+    <label for="key">Admin key</label>
+    <input id="key" name="key" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" required>
+    <button type="submit">Open dashboard</button>
+    <p id="gate-msg" class="msg" role="alert"></p>
+  </form>
+</main>
+
+<main id="dash" hidden>
+  <section id="needs" class="needs" aria-live="polite"></section>
+
+  <section class="today" aria-label="Last 24 hours">
+    <div class="cap"><span id="t-rev">–</span><small>made in 24 h</small></div>
+    <div class="cap"><span id="t-sign">–</span><small>sign-ups in 24 h</small></div>
+    <div class="cap"><span id="t-clip">–</span><small>clips in 24 h</small></div>
+  </section>
+  <p id="rev-line" class="sub"></p>
+
+  <section class="card">
+    <h2>Last 14 days</h2>
+    <p id="day-pick" class="pick">Tap a day.</p>
+    <div class="chart" id="chart-rev" aria-label="Revenue per day"></div>
+    <div class="chart teal" id="chart-sign" aria-label="Sign-ups per day"></div>
+    <div class="legend"><span class="k rev"></span>Revenue <span class="k sign"></span>Sign-ups</div>
+  </section>
+
+  <section class="card">
+    <h2>Live now</h2>
+    <div id="live" class="tags"></div>
+  </section>
+
+  <section class="card">
+    <h2>Plans</h2>
+    <ul id="plans" class="rows"></ul>
+  </section>
+
+  <section class="card">
+    <h2>Payments</h2>
+    <ul id="payments" class="rows"></ul>
+  </section>
+
+  <section class="card">
+    <h2>Newest users</h2>
+    <ul id="people" class="rows"></ul>
+    <button class="more" type="button" data-more="people" hidden>Show all</button>
+  </section>
+
+  <section class="card">
+    <h2>Demo channels</h2>
+    <p id="demo-line" class="sub"></p>
+    <ul id="demos" class="rows"></ul>
+    <button class="more" type="button" data-more="demos" hidden>Show all</button>
+  </section>
+
+  <section class="card">
+    <h2>Affiliates owed</h2>
+    <ul id="owed" class="rows"></ul>
+    <p id="owed-line" class="sub"></p>
+  </section>
+
+  <footer class="foot">
+    <a id="full" class="btn" href="#" target="_blank" rel="noopener noreferrer">Open full admin</a>
+    <p>Paying affiliates, takedowns, free weeks and starting demos happen there.</p>
+    <button id="signout" class="link" type="button">Sign out on this phone</button>
+  </footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
