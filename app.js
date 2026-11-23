@@ -95,7 +95,7 @@ function render() {
   $("t-sign").textContent = d.signups_24h;
   $("t-clip").textContent = d.claims_24h;
   $("rev-line").textContent = `${money(d.revenue.d7)} this week · ${money(d.revenue.d30)} in 30 days · ${money(d.revenue.total)} all time, after tax. `
-    + `${d.signups_7d} sign-ups this week, ${d.moments_24h} moments found in 24 h.`;
+    + `${d.signups_7d} sign-ups this week, ${d.moments_24h} moments found in 24 h (clips Caught spotted, picked or not).`;
 
   chart("chart-rev", d.days, (x) => x.cents);
   chart("chart-sign", d.days, (x) => x.signups);
