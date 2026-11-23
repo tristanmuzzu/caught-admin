@@ -29,16 +29,21 @@
 
 <main id="gate" class="gate" hidden>
   <h1>Sign in on this phone</h1>
-  <p>Paste the admin key (<code>ADMIN_KEY</code> on the server). It stays on this device and is sent only to caught.studio.</p>
+  <p>Scan the setup QR on the laptop (<code>scripts/admin-app-qr</code>), open it in Safari, tap <b>Copy key</b> there, then come back here and tap <b>Paste key</b>.</p>
+  <button id="paste" class="btn" type="button">Paste key</button>
   <form id="keyform">
-    <label for="key">Admin key</label>
+    <label for="key">Or type the admin key (<code>ADMIN_KEY</code> on the server)</label>
     <input id="key" name="key" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" required>
-    <button type="submit">Open dashboard</button>
+    <button type="submit" class="quiet">Open dashboard</button>
     <p id="gate-msg" class="msg" role="alert"></p>
   </form>
 </main>
 
 <main id="dash" hidden>
+  <section id="handoff" class="handoff" hidden>
+    <p><b>Signed in here in Safari.</b> The home-screen app keeps its own sign-in, so copy the key now and paste it there.</p>
+    <button id="copykey" class="btn" type="button">Copy key</button>
+  </section>
   <section id="needs" class="needs" aria-live="polite"></section>
 
   <section class="today" aria-label="Last 24 hours">
@@ -93,6 +98,7 @@
   <footer class="foot">
     <a id="full" class="btn" href="#" target="_blank" rel="noopener noreferrer">Open full admin</a>
     <p>Paying affiliates, takedowns, free weeks and starting demos happen there.</p>
+    <button id="copykey2" class="link" type="button">Copy key (to sign in somewhere else)</button>
     <button id="signout" class="link" type="button">Sign out on this phone</button>
   </footer>
 </main>

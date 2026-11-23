@@ -18,9 +18,13 @@ const store = {
   clear() { try { localStorage.removeItem(KEY); } catch (_) {} },
 };
 // one-time setup link: …/caught-admin/#key=KEY (the part after # never leaves the phone); stored, then wiped from the address
+// On iPhone a home-screen app has its own storage, separate from Safari, so a browser tab offers the key to copy.
+const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+let fromLink = false;
 if (location.hash.startsWith("#key=")) {
   store.set(decodeURIComponent(location.hash.slice(5)));
   history.replaceState(null, "", location.pathname + location.search);
+  fromLink = !standalone;
 }
 let key = store.get(), data = null, loading = false;
 const shown = { people: 10, demos: 8 };
@@ -75,6 +79,7 @@ async function load() {
 function render() {
   const d = data;
   $("gate").hidden = true; $("dash").hidden = false; $("reload").hidden = false;
+  $("handoff").hidden = !fromLink;
   $("stamp").textContent = "Updated " + new Date(d.now * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   // what needs the owner comes first; nothing else on the page asks for anything
@@ -163,6 +168,34 @@ $("keyform").addEventListener("submit", (e) => {
   $("gate-msg").textContent = "Checking…";
   load();
 });
+$("paste").onclick = async () => {
+  try {
+    const text = (await navigator.clipboard.readText()).trim();
+    // the whole setup link works too
+    key = text.includes("#key=") ? decodeURIComponent(text.split("#key=")[1]) : text;
+    if (!key) return void ($("gate-msg").textContent = "The clipboard is empty. Tap Copy key in Safari first.");
+    store.set(key);
+    $("gate-msg").textContent = "Checking…";
+    load();
+  } catch (_) {
+    $("gate-msg").textContent = "Couldn't read the clipboard. Long-press the key field below and tap Paste.";
+    $("key").focus();
+  }
+};
+// the clipboard API first; the older select-and-copy where it's refused; last, a field to copy by hand
+async function copyKey(btn) {
+  let ok = false;
+  try { await navigator.clipboard.writeText(key); ok = true; } catch (_) {
+    const t = el("textarea", { readonly: "", style: "position:fixed;opacity:0;top:0" });
+    t.value = key; document.body.append(t); t.select(); t.setSelectionRange(0, key.length);
+    try { ok = document.execCommand("copy"); } catch (_) {}
+    t.remove();
+  }
+  if (ok) return void (btn.textContent = btn.id === "copykey" ? "Copied. Now open the home-screen app and tap Paste key." : "Copied");
+  const f = el("input", { readonly: "", "aria-label": "Admin key", class: "keyfield" });
+  f.value = key; btn.replaceWith(f); f.focus(); f.select();
+}
+for (const id of ["copykey", "copykey2"]) $(id).onclick = (e) => copyKey(e.currentTarget);
 $("reload").onclick = load;
 $("signout").onclick = () => { store.clear(); key = ""; data = null; gate(); };
 // fresh numbers whenever the app comes back to the front, and every minute while it's open
