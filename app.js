@@ -101,6 +101,18 @@ function render() {
   chart("chart-sign", d.days, (x) => x.signups);
   pick(d.days.length - 1);
 
+  // who comes back after day one, and which Discord messages bring them (older servers send no "engagement")
+  const g = d.engagement;
+  $("back-card").hidden = !g;
+  if (g) {
+    const c = g.cohort, pct = c.signed_up ? ` (${Math.round(100 * c.came_back / c.signed_up)}%)` : "";
+    $("back-line").textContent = `${g.claimers_24h} people claimed in 24 h, ${g.claimers_7d} in 7 days. Of ${c.signed_up} who signed up `
+      + `2 to 9 days ago, ${c.came_back} claimed again later${pct}. ${g.away_with_clips} away 2+ days with clips to claim, `
+      + `${g.no_channel_7d} new this week without a channel.`;
+    fill("back", g.messages.map((m) => row(m.name, `${m.delivered} of ${m.sent} delivered to ${m.people} people, 7 days`,
+      `${m.opened} back`)), "");
+  }
+
   $("live").replaceChildren(...(d.live.length ? d.live.map((n) => el("span", {}, n.replace(/^(twitch|kick|youtube)-/, "")))
     : [el("span", { class: "none" }, "Nobody is live.")]));
 
